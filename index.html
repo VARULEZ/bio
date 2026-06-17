@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VARULEZ | Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#09090b',
+                        cardBg: '#18181b',
+                        cardBorder: '#27272a',
+                    }
+                }
+            }
+        } 
+    </script>
+    <style>
+        /* Sanfte Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+    </style>
+</head>
+<body class="bg-[#f4f4f5] dark:bg-[#09090b] text-zinc-800 dark:text-zinc-100 min-h-screen flex flex-col justify-between font-sans selection:bg-zinc-700 selection:text-zinc-900 dark:text-white">
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" class="fixed top-4 right-4 z-50 p-3 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:scale-110 active:scale-95 transition-all shadow-sm">
+        <!-- Mond-Symbol (Dark Mode) -->
+        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+        <!-- Sonne-Symbol (Light Mode) -->
+        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+    </button>
+
+    <!-- Main Container -->
+    <main class="max-w-3xl w-full mx-auto px-4 py-12 flex-grow flex flex-col justify-center">
+        
+        <!-- Bento Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+            
+            <!-- Profil-Kachel (Breit - md:col-span-12) -->
+            <!-- Farb-Feature: Glassmorphic-Effekt, der sich farblich perfekt anpasst -->
+            <div class="md:col-span-12 bg-white/80 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 flex flex-col sm:flex-row items-center gap-6 backdrop-blur-sm shadow-sm transition-all duration-300">
+                
+                <!-- Absolut stabiles, lokales Profilbild (100% kostenlos und ausfallsicher) -->
+                <div class="w-24 h-24 rounded-full border-2 border-zinc-200 dark:border-zinc-700 flex-shrink-0 flex items-center justify-center overflow-hidden transition-all duration-300">
+                    <img src="logo.png" 
+                        alt="VARULEZ" 
+                        class="w-full h-full object-cover"
+                        loading="lazy">
+                </div>
+                
+                <div class="text-center sm:text-left">
+                    <!-- Name: Starker Kontrast (Tiefschwarz vs. Reinweiß) -->
+                    <h1 class="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white transition-colors duration-300">
+                        VARULEZ
+                    </h1>
+                    <!-- Subtitle: Dagestan-Statusmeldung -->
+                    <p class="text-zinc-600 dark:text-zinc-400 text-sm mt-1 transition-colors duration-300">
+                        ⛓️ Currently 2-3 years in Dagestan 🖤
+                    </p>
+                    
+                    <!-- Adaptive Badge-Sektion -->
+                    <div class="flex flex-wrap gap-2 mt-4 justify-center sm:justify-start">
+                        <!-- Calisthenics: Stahl-Grau/Slate-Struktur -->
+                        <span class="px-2.5 py-0.5 bg-slate-100 dark:bg-slate-900/40 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800/80 rounded-full text-xs font-medium transition-all duration-300">
+                            🦾 Calisthenics
+                        </span>
+                        <!-- Mountainbiking: Dynamisches Wald- & Moos-Grün -->
+                        <span class="px-2.5 py-0.5 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30 rounded-full text-xs font-medium transition-all duration-300">
+                            🚲 Mountainbiking
+                        </span>
+                        <!-- Mountaineering: Kaltes Gletscher-Blau -->
+                        <span class="px-2.5 py-0.5 bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 border border-sky-100 dark:border-sky-900/30 rounded-full text-xs font-medium transition-all duration-300">
+                            🏔️ Mountaineering
+                        </span>
+                        <!-- Music: Vibrantes Neon-Violett -->
+                        <span class="px-2.5 py-0.5 bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-100 dark:border-purple-900/30 rounded-full text-xs font-medium transition-all duration-300">
+                            🎵 Music
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Kachel 2: Dynamischer Fokus (Belegt 4 von 12 Spalten auf Desktop) -->
+                <div class="md:col-span-4 bg-white/80 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 flex flex-col justify-between shadow-sm transition-colors duration-300">
+                    <div class="flex items-center justify-between">
+                        <!-- Monospace Label: Dezentes Grau -->
+                        <span class="text-xs uppercase tracking-widest font-mono text-zinc-400 dark:text-zinc-500 transition-colors duration-300">
+                            Goal
+                        </span>
+                        <!-- Aktiv-Ping: Leuchtet in beiden Modi grün -->
+                        <span class="flex h-2 w-2 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-bold text-zinc-800 dark:text-zinc-100 text-sm transition-colors duration-300">
+                            Current focus:
+                        </h3>
+                        <p class="text-zinc-600 dark:text-zinc-400 text-xs mt-1 transition-colors duration-300">
+                            Strength. Endurance. Mobility. Mindset. Growth.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SoundCloud Kachel -->
+            <a href="https://soundcloud.com/varulez" target="_blank" rel="noopener noreferrer" 
+            class="md:col-span-4 group bg-white dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-800 hover:border-orange-500/50 dark:hover:border-orange-500/50 hover:bg-orange-500/10 dark:hover:bg-orange-500/10 rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 hover:scale-[1.02]">
+                <div class="flex justify-between items-start">
+                    <div class="p-3 bg-orange-100 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-900/30 rounded-2xl text-orange-500">
+                        <!-- SoundCloud SVG -->
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.999 14.165c-.052 1.796-1.612 3.169-3.4 3.169h-8.18a.68.68 0 0 1-.675-.683V7.862a.747.747 0 0 1 .452-.724s.75-.513 2.333-.513a5.364 5.364 0 0 1 2.763.755 5.433 5.433 0 0 1 2.57 3.54c.282-.08.574-.121.868-.12.884 0 1.73.358 2.347.992s.948 1.49.922 2.373ZM10.721 8.421c.247 2.98.427 5.697 0 8.672a.264.264 0 0 1-.53 0c-.395-2.946-.22-5.718 0-8.672a.264.264 0 0 1 .53 0ZM9.072 9.448c.285 2.659.37 4.986-.006 7.655a.277.277 0 0 1-.55 0c-.331-2.63-.256-5.02 0-7.655a.277.277 0 0 1 .556 0Zm-1.663-.257c.27 2.726.39 5.171 0 7.904a.266.266 0 0 1-.532 0c-.38-2.69-.257-5.21 0-7.904a.266.266 0 0 1 .532 0Zm-1.647.77a26.108 26.108 0 0 1-.008 7.147.272.272 0 0 1-.542 0 27.955 27.955 0 0 1 0-7.147.275.275 0 0 1 .55 0Zm-1.67 1.769c.421 1.865.228 3.5-.029 5.388a.257.257 0 0 1-.514 0c-.21-1.858-.398-3.549 0-5.389a.272.272 0 0 1 .543 0Zm-1.655-.273c.388 1.897.26 3.508-.01 5.412-.026.28-.514.283-.54 0-.244-1.878-.347-3.54-.01-5.412a.283.283 0 0 1 .56 0Zm-1.668.911c.4 1.268.257 2.292-.026 3.572a.257.257 0 0 1-.514 0c-.241-1.262-.354-2.312-.023-3.572a.283.283 0 0 1 .563 0Z" />
+                        </svg>
+                    </div>
+                    <!-- Hover Text Farbe angepasst an das Theme -->
+                    <span class="text-xs text-zinc-500 group-hover:text-orange-500 transition-colors">Listen &rarr;</span>
+                </div>
+                <div class="mt-8">
+                    <h2 class="font-bold text-lg text-zinc-900 dark:text-white transition-colors duration-300">SoundCloud</h2>
+                    <p class="text-zinc-600 dark:text-zinc-400 text-xs mt-1 transition-colors duration-300">Latest Sets.</p>
+                </div>
+            </a>
+
+            <!-- Komoot Kachel -->
+            <a href="https://www.komoot.com/user/1145481962561" target="_blank" rel="noopener noreferrer" 
+            class="md:col-span-4 group bg-white dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-800 hover:border-[#84b524]/50 dark:hover:border-[#84b524]/50 hover:bg-[#84b524]/10 dark:hover:bg-[#84b524]/10 rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 hover:scale-[1.02]">
+                <div class="flex justify-between items-start">
+                    <div class="p-3 bg-[#84b524]/10 border border-[#84b524]/20 rounded-2xl text-[#84b524]">
+                        <!-- Offizielles Komoot Logo (Zahnrad/Berg-Symbol) -->
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9.8 14.829l2.2-3.43 2.2 3.43 5.962 5.962A11.946 11.946 0 0 1 12 24c-3.043 0-5.935-1.14-8.162-3.209zM0 12C0 5.385 5.385 0 12 0c6.62 0 12 5.385 12 12 0 2.663-.855 5.175-2.469 7.284l-6.018-6.018c.15-.412.226-.839.226-1.27A3.743 3.743 0 0 0 12 8.257a3.743 3.743 0 0 0-3.739 3.739c0 .431.076.858.226 1.27L2.469 19.284A11.946 11.946 0 0 1 0 12z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs text-zinc-500 group-hover:text-[#84b524] transition-colors">Tracks &rarr;</span>
+                </div>
+                <div class="mt-8">
+                    <h2 class="font-bold text-lg text-zinc-900 dark:text-white transition-colors duration-300">Komoot</h2>
+                    <p class="text-zinc-600 dark:text-zinc-400 text-xs mt-1 transition-colors duration-300">All public routes.</p>
+                </div>
+            </a>
+
+            <!-- Custom Link-Kachel -->
+            <a href="mailto:varulez@raveolution.info" 
+            class="md:col-span-4 group bg-white dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400/50 dark:hover:border-zinc-500/50 hover:bg-zinc-500/10 dark:hover:bg-zinc-500/10 rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 hover:scale-[1.02]">
+                <div class="flex justify-between items-start">
+                    <!-- Icon Background und Border für Light und Dark Mode getrennt -->
+                    <div class="p-3 bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700/50 rounded-2xl text-zinc-600 dark:text-zinc-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    </div>
+                    <span class="text-xs text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors">Direct &rarr;</span>
+                </div>
+                <div class="mt-8">
+                    <h2 class="font-bold text-lg text-zinc-900 dark:text-white transition-colors duration-300">Contact</h2>
+                    <p class="text-zinc-600 dark:text-zinc-400 text-xs mt-1 transition-colors duration-300">Hit me up!</p>
+                </div>
+            </a>
+
+            <!-- Komoot Map Kachel 1 -->
+            <div class="md:col-span-6 h-[600px] relative bg-white/80 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-800 rounded-3xl overflow-hidden shadow-sm transition-all duration-300 hover:scale-[1.01]">
+                
+                <!-- Schwebende Glassmorphic-Badge -->
+                <div class="absolute top-4 right-4 z-10 px-3 py-1.5 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm flex items-center gap-2 transition-colors duration-300">
+                    <span class="flex h-2 w-2 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span class="text-xs font-bold text-zinc-800 dark:text-zinc-200">🏔️ Last tour</span>
+                </div>
+                
+                <!-- Komoot Iframe (Füllt den Container dank w-full h-full perfekt aus) -->
+                <iframe src="https://www.komoot.com/tour/3034503823/embed?share_token=aVYBs7YUryvuQHCSkssye8HtD7IyHL9B2MzFmeo29kcmPGKYz5&amp;hl=de&amp;layout=classic&amp;profile=1" 
+                        class="w-full h-full border-0 transition-all duration-500 dark:invert-[0.9] dark:hue-rotate-180" 
+                        scrolling="no">
+                </iframe>
+            </div>
+
+            <!-- Komoot Map Kachel 2 -->
+            <div class="md:col-span-6 h-[600px] relative bg-white/80 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-800 rounded-3xl overflow-hidden shadow-sm transition-all duration-300 hover:scale-[1.01]">
+                
+                <!-- Schwebende Glassmorphic-Badge -->
+                <div class="absolute top-4 right-4 z-10 px-3 py-1.5 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm flex items-center gap-2 transition-colors duration-300">
+                    <span class="flex h-2 w-2 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span class="text-xs font-bold text-zinc-800 dark:text-zinc-200">🏔️ Tour before</span>
+                </div>
+                
+                <!-- Komoot Iframe (Füllt den Container dank w-full h-full perfekt aus) -->
+                <iframe src="https://www.komoot.com/tour/3011402462/embed?share_token=aMAdU0HaEtEyLhIRG7gL1BE7Y29F8A6cu5oSsDRoAyD5A4YSqO&amp;hl=de&amp;layout=classic&amp;profile=1" 
+                        class="w-full h-full border-0 transition-all duration-500 dark:invert-[0.9] dark:hue-rotate-180" 
+                        scrolling="no">
+                </iframe>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer mit neuer Signature -->
+    <footer class="w-full border-t border-zinc-900 py-6 text-center text-xs text-zinc-500">
+        <div class="max-w-3xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <span>&copy; 2026 VARULEZ</span>
+            <div class="flex gap-4 items-center">
+                <!-- Die Gehirn-Signatur -->
+                <span class="font-mono text-zinc-400">made with 🧠 by VARULEZ</span>
+                <span class="text-zinc-800">|</span>
+                <a href="impressum.html" class="hover:text-zinc-300 transition-colors underline decoration-zinc-700 underline-offset-4">Legal Notice</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+    // System-Präferenz oder gespeichertes Theme prüfen
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        themeToggleLightIcon.classList.remove('hidden');
+    } else {
+        document.documentElement.classList.remove('dark');
+        themeToggleDarkIcon.classList.remove('hidden');
+    }
+
+    // Toggle-Event-Listener
+    themeToggleBtn.addEventListener('click', function() {
+        // Icons umschalten
+        themeToggleDarkIcon.classList.toggle('hidden');
+        themeToggleLightIcon.classList.toggle('hidden');
+
+        // Theme umschalten und im Speicher sichern
+        if (localStorage.getItem('color-theme')) {
+            if (localStorage.getItem('color-theme') === 'light') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            }
+        } else {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        }
+    });
+    </script>
+
+    <script data-goatcounter="https://varulez.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VARULEZ // Tactical Command Centre</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#09090b',
+                        cardBg: '#18181b',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+    </style>
+</head>
+<body class="bg-[#09090b] text-zinc-100 min-h-screen flex flex-col justify-between font-sans selection:bg-zinc-800">
+
+    <!-- Header -->
+    <header class="border-b border-zinc-900 bg-[#09090b]/80 backdrop-blur-md py-4 px-4 sm:px-6 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="w-2.5 h-2.5 rounded-full bg-zinc-200 animate-pulse"></span>
+            <h1 class="text-sm sm:text-base font-bold tracking-widest font-mono text-zinc-100">VARULEZ // CORE TELEMETRY</h1>
+        </div>
+        <div class="text-[9px] sm:text-[10px] text-zinc-500 font-mono" id="system-time">SYS_TIME: --:--:--</div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 flex-grow flex flex-col gap-6">
+        
+        <!-- SECURE CREDENTIALS INPUT -->
+        <div class="bg-[#18181b]/50 border border-[#27272a] rounded-3xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <svg class="w-4 h-4 text-zinc-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                <span class="text-xs font-mono text-zinc-400">Secure API Token (Stored locally):</span>
+            </div>
+            <input type="password" id="api-token-input" placeholder="Paste your GoatCounter API Key..." class="w-full sm:w-96 bg-zinc-950 border border-[#27272a] rounded-xl px-4 py-2 text-xs text-zinc-200 focus:outline-none focus:border-zinc-500 font-mono">
+        </div>
+
+        <!-- ROW 1: Die 5 Standard-Zeitfenster -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div class="bg-[#18181b]/30 border border-[#27272a] rounded-2xl p-4 flex flex-col justify-between shadow-sm">
+                <span class="text-[9px] uppercase tracking-widest font-mono text-zinc-500">Today</span>
+                <div class="my-4 flex items-baseline gap-2"><span id="count-today" class="text-3xl font-bold font-mono text-white">...</span><span class="text-xs text-zinc-500 font-mono">scans</span></div>
+            </div>
+            <div class="bg-[#18181b]/30 border border-[#27272a] rounded-2xl p-4 flex flex-col justify-between shadow-sm">
+                <span class="text-[9px] uppercase tracking-widest font-mono text-zinc-500">Yesterday</span>
+                <div class="my-4 flex items-baseline gap-2"><span id="count-yesterday" class="text-3xl font-bold font-mono text-white">...</span><span class="text-xs text-zinc-500 font-mono">scans</span></div>
+            </div>
+            <div class="bg-[#18181b]/30 border border-[#27272a] rounded-2xl p-4 flex flex-col justify-between shadow-sm">
+                <span class="text-[9px] uppercase tracking-widest font-mono text-zinc-500">Last 7 Days</span>
+                <div class="my-4 flex items-baseline gap-2"><span id="count-week" class="text-3xl font-bold font-mono text-white">...</span><span class="text-xs text-zinc-500 font-mono">scans</span></div>
+            </div>
+            <div class="bg-[#18181b]/30 border border-[#27272a] rounded-2xl p-4 flex flex-col justify-between shadow-sm">
+                <span class="text-[9px] uppercase tracking-widest font-mono text-zinc-500">Last 30 Days</span>
+                <div class="my-4 flex items-baseline gap-2"><span id="count-month" class="text-3xl font-bold font-mono text-white">...</span><span class="text-xs text-zinc-500 font-mono">scans</span></div>
+            </div>
+            <div class="col-span-2 sm:col-span-1 bg-[#18181b]/30 border border-[#27272a] rounded-2xl p-4 flex flex-col justify-between shadow-sm">
+                <span class="text-[9px] uppercase tracking-widest font-mono text-zinc-200">All Time</span>
+                <div class="my-4 flex items-baseline gap-2"><span id="count-all" class="text-3xl font-bold font-mono text-white">...</span><span class="text-xs text-zinc-500 font-mono">scans</span></div>
+            </div>
+        </div>
+
+        <!-- ROW 2: ADVANCED INTELLIGENCE GRID -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- 1. REFERRERS -->
+            <div class="bg-[#18181b]/30 border border-[#27272a] rounded-3xl p-5 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-[10px] uppercase tracking-widest font-mono text-zinc-400 mb-5 flex justify-between">
+                        <span>Top Referrers</span>
+                    </h3>
+                    <div id="referrer-list" class="space-y-4 min-h-[180px]">
+                        <p class="text-[10px] text-zinc-600 italic font-mono">Awaiting API Key Authorization...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. LOCATIONS -->
+            <div class="bg-[#18181b]/30 border border-[#27272a] rounded-3xl p-5 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-[10px] uppercase tracking-widest font-mono text-zinc-400 mb-5 flex justify-between">
+                        <span>Locations</span>
+                    </h3>
+                    <div id="geo-list" class="space-y-4 min-h-[180px]">
+                        <p class="text-[10px] text-zinc-600 italic font-mono">Awaiting API Key...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. LANGUAGES -->
+            <div class="bg-[#18181b]/30 border border-[#27272a] rounded-3xl p-5 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-[10px] uppercase tracking-widest font-mono text-zinc-400 mb-5 flex justify-between">
+                        <span>Languages</span>
+                    </h3>
+                    <div id="lang-list" class="space-y-4 min-h-[180px]">
+                        <p class="text-[10px] text-zinc-600 italic font-mono">Awaiting API Key...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. SYSTEMS & BROWSERS -->
+            <div class="bg-[#18181b]/30 border border-[#27272a] rounded-3xl p-5 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-[10px] uppercase tracking-widest font-mono text-zinc-400 mb-5 flex justify-between">
+                        <span>Systems & Browsers</span>
+                    </h3>
+                    <div id="tech-list" class="space-y-4 min-h-[180px]">
+                        <p class="text-[10px] text-zinc-600 italic font-mono">Awaiting API Key...</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ROW 3: Custom Range -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-8 bg-[#18181b]/30 border border-[#27272a] rounded-3xl p-6 flex flex-col justify-between shadow-sm">
+                <div>
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-xs uppercase tracking-widest font-mono text-zinc-500">Tactical Recon Range</span>
+                        <span class="text-[10px] px-2 py-0.5 bg-zinc-900 border border-zinc-800 text-zinc-300 rounded-md font-mono">Manual Scan</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-zinc-500 font-mono mb-2">Start Date:</label>
+                            <input type="date" id="start-date" class="w-full bg-zinc-950 border border-[#27272a] rounded-xl p-3 text-sm text-zinc-200 focus:outline-none focus:border-zinc-500 font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-500 font-mono mb-2">End Date:</label>
+                            <input type="date" id="end-date" class="w-full bg-zinc-950 border border-[#27272a] rounded-xl p-3 text-sm text-zinc-200 focus:outline-none focus:border-zinc-500 font-mono">
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 flex flex-col sm:flex-row items-center gap-4 justify-between border-t border-zinc-900 pt-6">
+                    <button id="run-custom-scan" class="w-full sm:w-auto px-6 py-3 bg-zinc-200 hover:bg-zinc-100 text-zinc-950 text-xs font-bold uppercase tracking-wider rounded-xl transition-all">Run Custom Scan</button>
+                    <div class="text-center sm:text-right mt-2 sm:mt-0">
+                        <span class="text-xs text-zinc-500 font-mono block">Query Result:</span>
+                        <span id="custom-result" class="text-2xl font-bold font-mono text-zinc-100">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operations Control Box -->
+            <div class="lg:col-span-4 bg-[#18181b]/30 border border-[#27272a] rounded-3xl p-6 flex flex-col justify-between shadow-sm">
+                <div>
+                    <span class="text-xs uppercase tracking-widest font-mono text-zinc-500">Control Unit</span>
+                    <div class="mt-6 space-y-3 text-xs">
+                        <div class="flex justify-between"><span class="text-zinc-500 font-mono">Target:</span><span class="text-zinc-300 font-mono">varulez.github.io/bio</span></div>
+                        <div class="flex justify-between"><span class="text-zinc-500 font-mono">Bypass Queue:</span><span class="text-zinc-400 font-mono">Active (300ms)</span></div>
+                        <div class="flex justify-between"><span class="text-zinc-500 font-mono">IP Exclusions:</span><span class="text-zinc-400 font-mono">Enabled</span></div>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <button id="refresh-all" class="w-full py-3 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 font-mono text-xs tracking-wider uppercase rounded-xl transition-all">Refresh Grid</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center text-xs text-slate-600 border-t border-zinc-900">
+        <span>VARULEZ Tactical Command Centre // Private Local Node</span>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const goatCounterCode = 'varulez'; 
+            const path = 'TOTAL'; 
+
+            const apiInput = document.getElementById('api-token-input');
+
+            if (localStorage.getItem('goatcounter_api_token')) {
+                apiInput.value = localStorage.getItem('goatcounter_api_token');
+            }
+            apiInput.addEventListener('input', () => {
+                localStorage.setItem('goatcounter_api_token', apiInput.value);
+                loadDashboard();
+            });
+
+            const updateTime = () => {
+                const now = new Date();
+                document.getElementById('system-time').textContent = `SYS_TIME: ${now.toLocaleTimeString()}`;
+            };
+            setInterval(updateTime, 1000);
+            updateTime();
+
+            const formatDate = (date) => {
+                const yyyy = date.getFullYear();
+                const mm = String(date.getMonth() + 1).padStart(2, '0');
+                const dd = String(date.getDate()).padStart(2, '0');
+                return `${yyyy}-${mm}-${dd}`;
+            };
+
+            const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+            // Zähler-Abfrage
+            async function fetchCount(start = null, end = null) {
+                let url = `https://${goatCounterCode}.goatcounter.com/counter/${path}.json`;
+                const params = [];
+                if (start) params.push(`start=${start}`);
+                if (end) params.push(`end=${end}`);
+                if (params.length > 0) url += `?${params.join('&')}`;
+
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    return data.count ? parseInt(data.count.replace(/[^0-9]/g, ''), 10) : 0;
+                } catch (e) {
+                    console.error("API Error:", e);
+                    return 'ERR';
+                }
+            }
+
+            // Authentifizierte Stats-Abfrage (Dynamisch erweitert für Details)
+            async function fetchStats(page) {
+                const token = localStorage.getItem('goatcounter_api_token');
+                if (!token) return null;
+
+                const url = `https://${goatCounterCode}.goatcounter.com/api/v0/stats/${page}`;
+                try {
+                    const response = await fetch(url, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    if (response.status === 401 || response.status === 403) return 'AUTH_ERROR';
+                    return await response.json();
+                } catch (e) {
+                    console.error(e);
+                    return null;
+                }
+            }
+
+            // Listen mit minimalistischen weißen Progressbars und Klick-Option rendern
+            function renderStatList(containerId, data, pageType) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = '';
+
+                if (!data || data === 'AUTH_ERROR') {
+                    container.innerHTML = `<p class="text-[10px] text-red-500 font-mono">🔐 Auth Failed. Check API Key.</p>`;
+                    return;
+                }
+
+                const stats = data.stats || [];
+                if (stats.length === 0) {
+                    container.innerHTML = `<p class="text-[10px] text-zinc-600 italic font-mono">No data logged.</p>`;
+                    return;
+                }
+
+                const total = stats.reduce((sum, item) => sum + item.count, 0);
+
+                stats.slice(0, 5).forEach(item => {
+                    const percentage = total > 0 ? Math.round((item.count / total) * 100) : 0;
+                    
+                    const itemHtml = `
+                        <!-- Klickbarer Listeneintrag -->
+                        <div class="group/item cursor-pointer hover:bg-zinc-900/30 p-1.5 rounded-xl transition-all duration-150" 
+                             onclick="toggleDetails(this, '${pageType}', '${item.id || item.name}')">
+                            <div class="flex justify-between text-[10px] mb-1 font-mono">
+                                <span class="text-zinc-300 group-hover/item:text-white transition-colors truncate pr-2">${item.name || '(direct / unknown)'}</span>
+                                <span class="text-zinc-500 group-hover/item:text-zinc-300">${item.count} (${percentage}%)</span>
+                            </div>
+                            <div class="w-full bg-zinc-950 rounded-full h-1 border border-zinc-900/50">
+                                <div class="bg-zinc-100 h-1 rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
+                            </div>
+                            <!-- Detail-Akkordeon (wird dynamisch befüllt) -->
+                            <div class="details-box hidden mt-2 ml-3 pl-3 border-l border-zinc-800 text-[9px] text-zinc-500 space-y-1 font-mono transition-all duration-300">
+                                <span class="animate-pulse">Fetching versions...</span>
+                            </div>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', itemHtml);
+                });
+            }
+
+            // Externe Funktion für den Detail-Scan (Akkordeon)
+            window.toggleDetails = async function(element, page, id) {
+                const detailsBox = element.querySelector('.details-box');
+                
+                // Wenn bereits geöffnet: Zuklappen
+                if (!detailsBox.classList.contains('hidden')) {
+                    detailsBox.classList.add('hidden');
+                    return;
+                }
+
+                // Sichtbar machen und Ladezustand anzeigen
+                detailsBox.classList.remove('hidden');
+
+                // Verhindert doppeltes Nachladen, wenn die Daten schon existieren
+                if (detailsBox.dataset.loaded === "true") {
+                    return;
+                }
+
+                // API abfragen: /api/v0/stats/{page}/{id}
+                const detailsData = await fetchStats(`${page}/${id}`);
+                
+                if (!detailsData || !detailsData.stats || detailsData.stats.length === 0) {
+                    detailsBox.innerHTML = 'No details found.';
+                    detailsBox.dataset.loaded = "true";
+                    return;
+                }
+
+                detailsBox.innerHTML = '';
+                detailsData.stats.slice(0, 5).forEach(sub => {
+                    detailsBox.innerHTML += `
+                        <div class="flex justify-between">
+                            <span class="text-zinc-400">${sub.name || 'unknown'}</span>
+                            <span>${sub.count} scans</span>
+                        </div>
+                    `;
+                });
+                detailsBox.dataset.loaded = "true";
+            };
+
+            // Dashboard steuern
+            async function loadDashboard() {
+                const loaders = ['today', 'yesterday', 'week', 'month', 'all'];
+                loaders.forEach(id => document.getElementById(`count-${id}`).textContent = '...');
+
+                const now = new Date();
+                const yesterday = new Date(now.getTime() - (24 * 60 * 60 * 1000));
+                const sevenDaysAgo = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000));
+                const thirtyDaysAgo = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));
+
+                const todayStr = formatDate(now);
+                const yesterdayStr = formatDate(yesterday);
+
+                document.getElementById('count-today').textContent = await fetchCount(todayStr);
+                await sleep(300);
+                document.getElementById('count-yesterday').textContent = await fetchCount(yesterdayStr, todayStr);
+                await sleep(300);
+                document.getElementById('count-week').textContent = await fetchCount(formatDate(sevenDaysAgo));
+                await sleep(300);
+                document.getElementById('count-month').textContent = await fetchCount(formatDate(thirtyDaysAgo));
+                await sleep(300);
+                document.getElementById('count-all').textContent = await fetchCount();
+                await sleep(300);
+
+                if (localStorage.getItem('goatcounter_api_token')) {
+                    const toprefs = await fetchStats('toprefs');
+                    renderStatList('referrer-list', toprefs, 'toprefs');
+                    await sleep(300);
+
+                    const locations = await fetchStats('locations');
+                    renderStatList('geo-list', locations, 'locations');
+                    await sleep(300);
+
+                    const languages = await fetchStats('languages');
+                    renderStatList('lang-list', languages, 'languages');
+                    await sleep(300);
+
+                    const systems = await fetchStats('systems');
+                    renderStatList('tech-list', systems, 'systems');
+                }
+            }
+
+            document.getElementById('run-custom-scan').addEventListener('click', async () => {
+                const startDateInput = document.getElementById('start-date').value;
+                const endDateInput = document.getElementById('end-date').value;
+                const resultSpan = document.getElementById('custom-result');
+
+                if (!startDateInput || !endDateInput) {
+                    resultSpan.textContent = 'SELECT DATES';
+                    return;
+                }
+
+                resultSpan.textContent = 'SCANNING...';
+                const count = await fetchCount(startDateInput, endDateInput);
+                resultSpan.textContent = count;
+            });
+
+            document.getElementById('refresh-all').addEventListener('click', loadDashboard);
+
+            loadDashboard();
+        });
+    </script>
+</body>
+</html>
